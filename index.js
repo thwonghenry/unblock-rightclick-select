@@ -1,22 +1,22 @@
-(function (doc) {
-  function unblockDOM (dom) {
+((parentDoc) => {
+  const unblockDOM = (dom) => {
     dom.oncontextmenu = null;
     dom.onselectstart = null;
-  }
-  function unblockIFrames (doc) {
+  };
+  const unblockIFrames = (doc) => {
     const iframes = doc.getElementsByTagName('iframe');
-    Array.from(iframes).forEach(function (iframe) {
+    Array.from(iframes).forEach((iframe) => {
       try {
         const iframeDoc = iframe.contentDocument;
         unblockDocument(iframeDoc);
       } catch (e) {}
     });
-  }
-  function unblockDocument (doc) {
+  };
+  const unblockDocument = (doc) => {
     unblockDOM(doc);
     unblockIFrames(doc);
     const allElements = doc.getElementsByTagName('*');
     Array.from(allElements).forEach(unblockDOM);
-  }
-  unblockDocument(doc);
+  };
+  unblockDocument(parentDoc);
 })(document);
